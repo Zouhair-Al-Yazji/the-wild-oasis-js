@@ -5,7 +5,7 @@ import CreateCabinForm from './CreateCabinForm';
 import { formatCurrency } from '../../utils/helpers';
 import { useDeleteCabin } from './useDeleteCabin';
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
-import { useCerateCabin } from './useCreateCabin';
+import { useCreateCabin } from './useCreateCabin';
 
 const TableRow = styled.div`
 	display: grid;
@@ -50,7 +50,7 @@ export default function CabinRow({ cabin }) {
 	const [showForm, setShowForm] = useState(false);
 	const { isDeleting, deleteCabin } = useDeleteCabin();
 
-	const { isCreating, createCabin } = useCerateCabin();
+	const { isCreating, createCabin } = useCreateCabin();
 
 	const { id: cabinId, name, image, maxCapacity, regularPrice, discount, description } = cabin;
 
