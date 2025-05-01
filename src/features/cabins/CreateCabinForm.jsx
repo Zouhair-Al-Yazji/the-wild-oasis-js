@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
@@ -9,7 +8,7 @@ import FormRow from '../../ui/FormRow';
 import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 	const { isCreating, createCabin } = useCreateCabin();
 	const { isUpdating, updateCabin } = useUpdateCabin();
 
@@ -32,14 +31,20 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 			updateCabin(
 				{ newCabinData: { ...data, image }, id: editId },
 				{
-					onSuccess: data => reset(),
+					onSuccess: data => {
+						reset();
+						onCloseModal?.();
+					},
 				}
 			);
 		else
 			createCabin(
 				{ ...data, image },
 				{
-					onSuccess: data => reset(),
+					onSuccess: data => {
+						reset();
+						onCloseModal?.();
+					},
 				}
 			);
 	}
@@ -49,7 +54,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 	}
 
 	return (
-		<Form onSubmit={handleSubmit(onSubmit, onError)}>
+		<Form onSubmit={handleSubmit(onSubmit, onError)} $type={onCloseModal ? 'modal' : 'regular'}>
 			<FormRow label="Cabin name" error={errors?.name?.message}>
 				<Input
 					type="text"
@@ -85,7 +90,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 						required: 'This field is required',
 						min: {
 							value: 1,
-							message: 'Capacity must be at least 1',
+							message: 'The price must be at least 1',
 						},
 					})}
 				/>
@@ -107,7 +112,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
 			<FormRow label="Description for website" error={errors?.description?.message}>
 				<Textarea
-					type="number"
+					type="text"
 					id="description"
 					defaultValue=""
 					disabled={isWorking}
@@ -128,7 +133,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 			</FormRow>
 
 			<FormRow>
-				<Button $variation="secondary" type="reset">
+				<Button $variation="secondary" type="reset" onClick={() => onCloseModal?.()}>
 					Cancel
 				</Button>
 				<Button disabled={isWorking}>{isEditSession ? 'Edit cabin' : 'Create new cabin'}</Button>

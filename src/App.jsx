@@ -6,6 +6,7 @@ import AppLayout from './ui/AppLayout';
 import Spinner from './ui/Spinner';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
+import CompoundComponentPattern from './CompoundComponentPattern';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Bookings = lazy(() => import('./pages/Bookings'));
@@ -17,12 +18,7 @@ const Login = lazy(() => import('./pages/Login'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 
 // create client
-const queryClient = new QueryClient({
-	defaultOptions: {
-		// staleTime: 60 * 1000,
-		staleTime: 0,
-	},
-});
+const queryClient = new QueryClient();
 
 export default function App() {
 	return (

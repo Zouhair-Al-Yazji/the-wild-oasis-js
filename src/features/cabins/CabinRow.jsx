@@ -48,8 +48,8 @@ const Discount = styled.div`
 
 export default function CabinRow({ cabin }) {
 	const [showForm, setShowForm] = useState(false);
-	const { isDeleting, deleteCabin } = useDeleteCabin();
 
+	const { isDeleting, deleteCabin } = useDeleteCabin();
 	const { isCreating, createCabin } = useCreateCabin();
 
 	const { id: cabinId, name, image, maxCapacity, regularPrice, discount, description } = cabin;

@@ -9,7 +9,7 @@ const Table = styled.div`
 
 	font-size: 1.4rem;
 	background-color: var(--color-grey-0);
-	border-radius: 7px;
+	border-radius: var(--border-radius-md);
 	overflow: hidden;
 `;
 
@@ -38,12 +38,12 @@ export default function CabinTable() {
 	return (
 		<Table role="table">
 			<TableHeader role="row">
-				<div></div>
-				<div>cabin</div>
-				<div>capacity</div>
-				<div>price</div>
-				<div>discount</div>
-				<div></div>
+				<div role="cell"></div>
+				<div role="cell">cabin</div>
+				<div role="cell">capacity</div>
+				<div role="cell">price</div>
+				<div role="cell">discount</div>
+				<div role="cell"></div>
 			</TableHeader>
 			{cabins.map(cabin => (
 				<CabinRow cabin={cabin} key={cabin.id} />
