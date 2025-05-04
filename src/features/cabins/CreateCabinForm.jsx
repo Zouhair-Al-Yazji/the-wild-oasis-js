@@ -8,18 +8,18 @@ import FormRow from '../../ui/FormRow';
 import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
-function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+function CreateCabinForm({ cabinToUpdate = {}, onCloseModal }) {
 	const { isCreating, createCabin } = useCreateCabin();
 	const { isUpdating, updateCabin } = useUpdateCabin();
 
 	const isWorking = isCreating || isUpdating;
 
-	const { id: editId, ...editValues } = cabinToEdit;
+	const { id: updateId, ...updateValues } = cabinToUpdate;
 
-	const isEditSession = Boolean(editId);
+	const isUpdateSession = Boolean(updateId);
 
 	const { register, handleSubmit, reset, getValues, formState } = useForm({
-		defaultValues: isEditSession ? editValues : {},
+		defaultValues: isUpdateSession ? updateValues : {},
 	});
 
 	const { errors } = formState;
@@ -27,9 +27,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 	function onSubmit(data) {
 		const image = typeof data.image === 'string' ? data.image : data.image[0];
 
-		if (isEditSession)
+		if (isUpdateSession)
 			updateCabin(
-				{ newCabinData: { ...data, image }, id: editId },
+				{ newCabinData: { ...data, image }, id: updateId },
 				{
 					onSuccess: data => {
 						reset();
@@ -127,7 +127,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 					id="image"
 					accept="image/*"
 					{...register('image', {
-						required: isEditSession ? false : 'This field is required',
+						required: isUpdateSession ? false : 'This field is required',
 					})}
 				/>
 			</FormRow>
@@ -136,7 +136,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				<Button $variation="secondary" type="reset" onClick={() => onCloseModal?.()}>
 					Cancel
 				</Button>
-				<Button disabled={isWorking}>{isEditSession ? 'Edit cabin' : 'Create new cabin'}</Button>
+				<Button disabled={isWorking}>
+					{isUpdateSession ? 'Update cabin' : 'Create new cabin'}
+				</Button>
 			</FormRow>
 		</Form>
 	);

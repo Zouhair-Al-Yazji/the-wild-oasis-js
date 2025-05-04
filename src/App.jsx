@@ -6,7 +6,6 @@ import AppLayout from './ui/AppLayout';
 import Spinner from './ui/Spinner';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
-import CompoundComponentPattern from './CompoundComponentPattern';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Bookings = lazy(() => import('./pages/Bookings'));

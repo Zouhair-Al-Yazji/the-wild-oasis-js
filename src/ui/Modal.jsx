@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, cloneElement } from 'react';
 import { createPortal } from 'react-dom';
-import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
+import { HiXMark } from 'react-icons/hi2';
 import useOutsideClick from '../hooks/useOutsideClick';
 
 const StyledModal = styled.div`
@@ -51,10 +51,17 @@ const Button = styled.button`
 		color: var(--color-grey-500);
 	}
 `;
-// 1.
+// a compound component pattern
+//  the idea of compound component pattern is that we can create a set of related components that together achieve a common and useful task
+
+// so the way we implement this is that we create a parent component and then a few different child components that really belong to parent component, and that really only make sense when used together with the parent component
+
+// a good example of this is the HTML select element and options elements
+
+// 1. Create a context
 const ModalContext = createContext();
 
-// 2.
+// 2. Create a parent component include state and function to pass to children component via the context provider
 export default function Modal({ children }) {
 	const [openName, setOpenName] = useState('');
 	const close = () => setOpenName('');
@@ -65,7 +72,7 @@ export default function Modal({ children }) {
 	);
 }
 
-// 3.
+// 3. Create child components to help implementing common task
 function Open({ children, opens: opensWindowName }) {
 	const { open } = useContext(ModalContext);
 
@@ -76,6 +83,7 @@ function Window({ children, name }) {
 	// react Portal is a feature that essentially allows us to render an element outside of the parent component's DOM structure while still keeping the element in the original position of the component tree
 
 	// basically we can render a component in any place that we want inside the DOM tree but still leave the component at the same place in the react component tree and things like props keep working normally
+
 	const { openName, close } = useContext(ModalContext);
 	const ref = useOutsideClick(close);
 	if (name !== openName) return null;
@@ -87,6 +95,7 @@ function Window({ children, name }) {
 					<HiXMark />
 				</Button>
 
+				{/* cloneElement() takes two arguments the first the jsx element that you need to clone and the second is the props that you want to add to the cloned element */}
 				<div>{cloneElement(children, { onCloseModal: close })}</div>
 			</StyledModal>
 		</Overlay>,
@@ -94,6 +103,6 @@ function Window({ children, name }) {
 	);
 }
 
-// 4.
+// 4. Add child component as properties to parent component
 Modal.Open = Open;
 Modal.Window = Window;
