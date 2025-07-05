@@ -9,6 +9,7 @@ import Button from '../../ui/Button';
 import ButtonText from '../../ui/ButtonText';
 import Spinner from '../../ui/Spinner';
 import Modal from '../../ui/Modal';
+import Empty from '../../ui/Empty';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 
 import { useMoveBack } from '../../hooks/useMoveBack';
@@ -25,7 +26,7 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-	const { booking, isPending, isError } = useBooking();
+	const { booking, isPending } = useBooking();
 	const navigate = useNavigate();
 	const moveBack = useMoveBack();
 	const { checkout, isCheckingOut } = useCheckout();
@@ -40,6 +41,7 @@ function BookingDetail() {
 	const { status, id: bookingId } = booking || {};
 
 	if (isPending) return <Spinner />;
+	if (!booking) return <Empty resourceName="booking" />;
 
 	return (
 		<>
