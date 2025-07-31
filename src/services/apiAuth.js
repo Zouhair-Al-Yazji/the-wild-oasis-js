@@ -65,6 +65,7 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
 	if (error) {
 		throw new Error(error.message);
 	}
+
 	if (!avatar) return data;
 
 	// 2. Upload the avatar image
